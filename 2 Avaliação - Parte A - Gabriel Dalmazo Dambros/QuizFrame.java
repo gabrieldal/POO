@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
-public class QuizFrame extends JFrame implements ActionListener {
+public class QuizFrame extends JFrame {
 
     private static final int LARGURA = 500;
     private static final int ALTURA = 500;
@@ -29,32 +29,66 @@ public class QuizFrame extends JFrame implements ActionListener {
         pergunta = new JLabel("Pergunta");
         resultado = new JLabel("Resultado");
         responder = new JButton("Responder");
-        perguntar = new JButton("Perguntar");
-        //perguntar2 = new JButton("Perguntar a próxima pergunta");
+        criaBotaoPerguntar();
+        criaBotaoPerguntar2();
+        responder();
         digitarResposta = new JTextField(10);
-        perguntar.addActionListener(this);
-        responder.addActionListener(this);
-        responder.setActionCommand("Responder");
-        //perguntar2.addActionListener(this);
+        // perguntar.addActionListener(this);
+        // responder.addActionListener(this);
+
+        // perguntar2.addActionListener(this);
 
         panel = new JPanel(new GridLayout(5, 2, 10, 10));
         panel.setBorder(BorderFactory.createLineBorder(Color.RED));
-        //contentPane.setLayout(new FlowLayout());
-        //setBackground(Color.BLUE);
+        // contentPane.setLayout(new FlowLayout());
+        // setBackground(Color.BLUE);
         panel.add(perguntar);
-        //panel.add(perguntar2);
+        panel.add(perguntar2);
         panel.add(pergunta);
         panel.add(digitarResposta);
         panel.add(responder);
         panel.add(resultado);
         contentPane.add(panel);
-        
 
-        
-        //perguntar();
+        // perguntar();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void criaBotaoPerguntar() {
+        perguntar = new JButton("Perguntar");
+        perguntar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                perguntar1();
+                perguntar.setEnabled(false);
+                perguntar2.setEnabled(true);
+            }
+        });
+    }
+
+    private void criaBotaoPerguntar2() {
+        perguntar2 = new JButton("Perguntar a próxima pergunta");
+        perguntar2.setEnabled(false);
+        perguntar2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                perguntar2();
+                perguntar2.setEnabled(false);
+            }
+        });
+    }
+
+    private void responder() {
+
+        responder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (digitarResposta.getText().compareTo(perguntaTxT.getResposta()) == 0) {
+                    resultado.setText("Resposta Correta!");
+                } else {
+                    resultado.setText("Errou, na verdade a resposta é " + perguntaTxT.getResposta());
+                }
+            }
+        });
     }
 
     private void perguntar1() {
@@ -132,41 +166,6 @@ public class QuizFrame extends JFrame implements ActionListener {
             System.out.println("Algo de errado não está certo.");
             e.printStackTrace();
         }
-
     }
-
-    public void actionPerformed(ActionEvent e) {
-        perguntar1();
-        /*if(??????){    não sei como fazer para trocar o botão
-            perguntar1();}
-             else perguntar2();*/
-
-        if ("Responder".equals(e.getActionCommand())) {
-
-            if (digitarResposta.getText().compareTo(perguntaTxT.getResposta()) == 0) {
-                resultado.setText("Resposta Correta!");
-
-            } else {
-                resultado.setText("Errou, na verdade a resposta é " + perguntaTxT.getResposta());
-            }
-
-        }
-    };
-
-    
-    /*public void actionPerformed(ActionEvent e){
-
-        perguntar2();
-
-        if ("Responder".equals(e.getActionCommand())) {
-
-            if (digitarResposta.getText().compareTo(perguntaTxT.getResposta()) == 0) {
-                resultado.setText("Resposta Correta!");
-
-            } else {
-                resultado.setText("Errou, na verdade a resposta é " + perguntaTxT.getResposta());
-            }
-    };*/
-    
 
 }
